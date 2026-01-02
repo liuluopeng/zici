@@ -1,0 +1,66 @@
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+</script>
+
+<template>
+  <div class="app-container">
+    <!-- 路由导航 -->
+    <nav class="nav">
+      <router-link to="/">生字</router-link>
+      <router-link to="/dictation">听写</router-link>
+    </nav>
+
+    <!-- 路由出口 -->
+    <router-view />
+  </div>
+</template>
+
+<style scoped>
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.nav {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.nav a {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.nav a:hover {
+  background-color: #45a049;
+}
+
+.nav a.router-link-active {
+  background-color: #3e8e41;
+  font-weight: bold;
+}
+
+h1 {
+  color: #333;
+}
+
+#draw-area {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+</style>

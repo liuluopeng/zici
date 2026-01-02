@@ -1,0 +1,34 @@
+{
+  "name": "zicichangshi",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cnchar-serve": "cnchar-serve 3002",
+    "cnchar-prod": "cnchar-serve-prod"
+  },
+  "dependencies": {
+    "cnchar": "^3.2.6",
+    "cnchar-all": "^3.2.6",
+    "cnchar-draw": "^3.2.6",
+    "hanzi-writer": "^3.7.3",
+    "pinia": "^3.0.4",
+    "vite-plugin-wasm": "^3.5.0",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4",
+    "wasm_zici": "file:../pkg"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.3",
+    "cnchar-data": "^1.1.0",
+    "sass-embedded": "^1.97.1",
+    "vite": "^7.3.0",
+    "vite-plugin-vue-devtools": "^8.0.5"
+  }
+}
