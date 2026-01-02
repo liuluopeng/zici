@@ -38,3 +38,4 @@ __screenshots__/
 php_server/
 cnchar-data/
 .vscode/
+.DS_Store
