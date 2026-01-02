@@ -6,7 +6,8 @@
             "use": "@vercel/static-build",
             "config": {
                 "distDir": "dist",
-                "buildCommand": "curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd ../ && wasm-pack build --target web && cd www_vue && npm install && npm run cnchar-prod && npm run build"
+                "installCommand": "echo 'Skipping automatic install'",
+                "buildCommand": "bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd ../ && wasm-pack build -d www_vue/pkg --target web && cd www_vue && npm install --legacy-peer-deps && npm run cnchar-prod && npm run build'"
             }
         }
     ],

@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "cnchar-serve": "cnchar-serve 3002",
-    "cnchar-prod": "cnchar-serve-prod"
+    "cnchar-prod": "cnchar-serve-prod",
+    "vercel-build": "bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd ../ && wasm-pack build --target web && cd www_vue && npm install --legacy-peer-deps && npm run cnchar-prod && npm run build'"
   },
   "dependencies": {
     "cnchar": "^3.2.6",
@@ -22,7 +23,7 @@
     "vite-plugin-wasm": "^3.5.0",
     "vue": "^3.5.26",
     "vue-router": "^4.6.4",
-    "wasm_zici": "file:../pkg"
+    "wasm_zici": "file:./pkg"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.3",

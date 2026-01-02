@@ -33,8 +33,8 @@ importers:
         specifier: ^4.6.4
         version: 4.6.4(vue@3.5.26)
       wasm_zici:
-        specifier: file:../pkg
-        version: file:../pkg
+        specifier: file:./pkg
+        version: file:pkg
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.3
@@ -2754,8 +2754,8 @@ packages:
       typescript:
         optional: true
 
-  wasm_zici@file:../pkg:
-    resolution: {directory: ../pkg, type: directory}
+  wasm_zici@file:pkg:
+    resolution: {directory: pkg, type: directory}
 
   which-module@1.0.0:
     resolution: {integrity: sha512-F6+WgncZi/mJDrammbTuHe1q0R5hOXv/mBaiNA2TCNT/LTHusX0V+CJnj9XT8ki5ln2UZyyddDgHfCzyrOH7MQ==}
@@ -5760,7 +5760,7 @@ snapshots:
       '@vue/server-renderer': 3.5.26(vue@3.5.26)
       '@vue/shared': 3.5.26
 
-  wasm_zici@file:../pkg: {}
+  wasm_zici@file:pkg: {}
 
   which-module@1.0.0: {}
 
