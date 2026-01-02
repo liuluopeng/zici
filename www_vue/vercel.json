@@ -6,7 +6,7 @@
             "use": "@vercel/static-build",
             "config": {
                 "distDir": "dist",
-                "buildCommand": "npm install && npm run cnchar-prod && npm run build"
+                "buildCommand": "curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd ../ && wasm-pack build --target web && cd www_vue && npm install && npm run cnchar-prod && npm run build"
             }
         }
     ],
