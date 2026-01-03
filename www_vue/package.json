@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "cnchar-serve": "cnchar-serve 3002",
     "cnchar-prod": "cnchar-serve-prod",
-    "vercel-build": "bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd .. && wasm-pack build --target web && cd www_vue && npm install --legacy-peer-deps  && npm install -g cnchar-data && npm run cnchar-prod && npm run build'"
+    "vercel-build": "bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd .. && wasm-pack build --target web && cd www_vue && npm install --legacy-peer-deps --include=dev && npm install -g cnchar-data && npm run cnchar-prod && npm run build'"
   },
   "dependencies": {
     "cnchar": "^3.2.6",
