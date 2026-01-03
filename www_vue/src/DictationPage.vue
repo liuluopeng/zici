@@ -275,8 +275,8 @@ const initHanziWriter = () => {
 
   // 创建新的writer实例
   writer = HanziWriter.create(writerContainer.value, currentChar.value, {
-    width: 250,
-    height: 250,
+    width: 400,
+    height: 400,
     showCharacter: false,
     padding: 0,
     strokeAnimationSpeed: 2,
@@ -449,7 +449,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px 20px 0;
+  padding: 2rem 2rem 0;
   background-color: #f8f9fa;
   font-family: 'KaiTi SC', 'KaiTi', 'STKaiti', 'SimKai', cursive, sans-serif;
 }
@@ -468,26 +468,26 @@ onUnmounted(() => {
   justify-content: space-between;
   max-width: 1200px;
   width: 100%;
-  gap: 20px;
+  gap: 2rem;
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 1.5rem;
   flex: 1;
   max-width: 600px;
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 
 .char-display {
-  width: 250px;
-  height: 250px;
+  width: 25rem;
+  height: 25rem;
   background-color: white;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  margin-bottom: 20px;
-  border: 3px dashed rgba(52, 73, 94, 0.5);
+  margin-bottom: 2rem;
+  border: 0.3rem dashed rgba(52, 73, 94, 0.5);
   transition: all 0.3s ease;
   perspective: 1000px;
   /* 创建3D空间 */
@@ -522,8 +522,8 @@ onUnmounted(() => {
   left: 0;
   top: 50%;
   width: 100%;
-  height: 2px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 2px, transparent 2px, transparent 5px);
+  height: 0.2rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 0.2rem, transparent 0.2rem, transparent 0.5rem);
   transform: translateY(-50%);
   z-index: 2;
   pointer-events: none;
@@ -535,9 +535,9 @@ onUnmounted(() => {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 2px;
+  width: 0.2rem;
   height: 100%;
-  background: repeating-linear-gradient(180deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 2px, transparent 2px, transparent 5px);
+  background: repeating-linear-gradient(180deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 0.2rem, transparent 0.2rem, transparent 0.5rem);
   transform: translateX(-50%);
   z-index: 2;
   pointer-events: none;
@@ -549,8 +549,8 @@ onUnmounted(() => {
   left: -50%;
   top: 50%;
   width: 200%;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 1px, transparent 1px, transparent 3px);
+  height: 0.1rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 0.1rem, transparent 0.1rem, transparent 0.3rem);
   transform: translateY(-50%) rotate(45deg);
   z-index: 1;
   pointer-events: none;
@@ -562,8 +562,8 @@ onUnmounted(() => {
   left: -50%;
   top: 50%;
   width: 200%;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 1px, transparent 1px, transparent 3px);
+  height: 0.1rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 0.1rem, transparent 0.1rem, transparent 0.3rem);
   transform: translateY(-50%) rotate(-45deg);
   z-index: 1;
   pointer-events: none;
@@ -610,7 +610,7 @@ onUnmounted(() => {
 
 .primary-btn-group {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
 }
@@ -620,18 +620,18 @@ onUnmounted(() => {
 .next-btn,
 .show-answer-btn,
 .show-keyboard-btn {
-  padding: 15px 30px;
+  padding: 1.5rem 3rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 1rem;
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-  min-width: 160px;
+  min-width: 16rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .speak-btn,
@@ -707,18 +707,18 @@ onUnmounted(() => {
   text-align: center;
   min-height: 3rem;
   font-weight: 500;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
   background-color: #ecf0f1;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.4rem;
 }
 
 .tip-display span {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 0.2rem;
 }
 
 .char-with-pinyin {
@@ -734,7 +734,7 @@ onUnmounted(() => {
 .pinyin {
   font-size: 0.8rem;
   color: #666;
-  margin-bottom: 2px;
+  margin-bottom: 0.2rem;
   line-height: 1rem;
   white-space: nowrap;
   text-align: center;
@@ -761,11 +761,11 @@ onUnmounted(() => {
 .tianzige {
   width: 1.8rem;
   height: 1.8rem;
-  border: 2px dashed rgba(52, 73, 94, 0.5);
+  border: 0.2rem dashed rgba(52, 73, 94, 0.5);
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  margin: 0 2px;
+  margin: 0 0.2rem;
   overflow: hidden;
 }
 
@@ -776,8 +776,8 @@ onUnmounted(() => {
   left: 0;
   top: 50%;
   width: 100%;
-  height: 2px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 2px, transparent 2px, transparent 5px);
+  height: 0.2rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 0.2rem, transparent 0.2rem, transparent 0.5rem);
   transform: translateY(-50%);
   z-index: 2;
 }
@@ -788,9 +788,9 @@ onUnmounted(() => {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 2px;
+  width: 0.2rem;
   height: 100%;
-  background: repeating-linear-gradient(180deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 2px, transparent 2px, transparent 5px);
+  background: repeating-linear-gradient(180deg, rgba(52, 73, 94, 0.5) 0, rgba(52, 73, 94, 0.5) 0.2rem, transparent 0.2rem, transparent 0.5rem);
   transform: translateX(-50%);
   z-index: 2;
 }
@@ -801,8 +801,8 @@ onUnmounted(() => {
   left: -50%;
   top: 50%;
   width: 200%;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 1px, transparent 1px, transparent 3px);
+  height: 0.1rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 0.1rem, transparent 0.1rem, transparent 0.3rem);
   transform: translateY(-50%) rotate(45deg);
   z-index: 1;
 }
@@ -813,8 +813,8 @@ onUnmounted(() => {
   left: -50%;
   top: 50%;
   width: 200%;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 1px, transparent 1px, transparent 3px);
+  height: 0.1rem;
+  background: repeating-linear-gradient(90deg, rgba(52, 73, 94, 0.25) 0, rgba(52, 73, 94, 0.25) 0.1rem, transparent 0.1rem, transparent 0.3rem);
   transform: translateY(-50%) rotate(-45deg);
   z-index: 1;
 }
@@ -822,8 +822,8 @@ onUnmounted(() => {
 .tip-group {
   display: flex;
   flex-direction: row;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -833,18 +833,18 @@ onUnmounted(() => {
 
   .dictation-container {
     flex-direction: column;
-    gap: 20px;
+    gap: 2rem;
   }
 
   /* 响应式调整输入容器 */
   .input-container {
     flex-direction: column;
-    gap: 15px;
+    gap: 1.5rem;
   }
 
   .char-display {
-    width: 220px;
-    height: 220px;
+    width: 22rem;
+    height: 22rem;
   }
 
   .char {
@@ -854,8 +854,8 @@ onUnmounted(() => {
   .speak-btn,
   .prev-btn,
   .next-btn {
-    min-width: 200px;
-    padding: 14px 35px;
+    min-width: 20rem;
+    padding: 1.4rem 3.5rem;
     font-size: 1.1rem;
   }
 
@@ -870,8 +870,8 @@ onUnmounted(() => {
   }
 
   .char-display {
-    width: 180px;
-    height: 180px;
+    width: 18rem;
+    height: 18rem;
   }
 
   .char {
@@ -881,8 +881,8 @@ onUnmounted(() => {
   .speak-btn,
   .prev-btn,
   .next-btn {
-    min-width: 180px;
-    padding: 12px 30px;
+    min-width: 18rem;
+    padding: 1.2rem 3rem;
     font-size: 1rem;
   }
 
@@ -894,10 +894,10 @@ onUnmounted(() => {
 /* 通知样式 */
 .notification {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 20px;
-  border-radius: 8px;
+  top: 2rem;
+  right: 2rem;
+  padding: 1.5rem 2rem;
+  border-radius: 0.8rem;
   font-size: 1.1rem;
   font-weight: 600;
   color: white;

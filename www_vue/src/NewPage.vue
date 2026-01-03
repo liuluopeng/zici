@@ -131,24 +131,24 @@ onBeforeUnmount(() => {
 $gray-06: #999999;
 $main-color: #15c5ce;
 $box-shadow-color: rgba(255, 255, 255, 0.2);
-$key-box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
+$key-box-shadow: 0.2rem 0.2rem 0.4rem rgba(255, 255, 255, 0.2);
 
 .y-keyboard__setting-wrap {
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 24px;
-  font-size: 16px;
+  height: 2.4rem;
+  font-size: 1.6rem;
   color: $gray-06;
 }
 
 .y-keyboard__setting-item {
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 0.8rem 1.6rem;
   background: $main-color;
   color: white;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   transition: background-color 0.3s;
 
   &:hover {
@@ -158,7 +158,7 @@ $key-box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
 
 .y-main__screen-wrap {
   display: flex;
-  margin: 20px auto;
+  margin: 2rem auto;
   justify-content: center;
   align-items: flex-end;
   position: relative;
@@ -166,20 +166,20 @@ $key-box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
 
 .y-main__screen {
   max-width: 45vw;
-  width: 600px;
-  height: 50px;
+  width: 60rem;
+  height: 5rem;
   overflow: auto;
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 2.4rem;
+  line-height: 3rem;
   font-weight: 600;
   color: $gray-06;
   word-break: break-all;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 
   &.y-main__screen--word {
-    box-shadow: 2px 2px 5px 2px $box-shadow-color;
-    transform: translate3d(0, -6px, 0);
+    box-shadow: 0.2rem 0.2rem 0.5rem 0.2rem $box-shadow-color;
+    transform: translate3d(0, -0.6rem, 0);
   }
 
   &::-webkit-scrollbar {
@@ -189,25 +189,25 @@ $key-box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
 
 .y-main__screen-main {
   width: 100%;
-  padding: 20px 30px 0;
+  padding: 2rem 3rem 0;
 }
 
 .y-main__sub-screen {
-  margin-left: 30px;
-  width: 190px;
-  height: 80px;
+  margin-left: 3rem;
+  width: 19rem;
+  height: 8rem;
   overflow: hidden;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 1.4rem;
+  line-height: 2.4rem;
   font-weight: 600;
   color: $gray-06;
   word-break: break-all;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 
   &.y-main__sub-screen--word {
-    box-shadow: 2px 2px 5px 2px $box-shadow-color;
-    transform: translate3d(0, -6px, 0);
+    box-shadow: 0.2rem 0.2rem 0.5rem 0.2rem $box-shadow-color;
+    transform: translate3d(0, -0.6rem, 0);
   }
 
   &::-webkit-scrollbar {
@@ -216,32 +216,32 @@ $key-box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
 }
 
 .y-main__sub-screen-text {
-  margin-top: -16px;
-  padding-left: 10px;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
 }
 
 .y-key-wrap {
   box-sizing: content-box;
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem;
   background: #f0f2eb;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   box-shadow: $key-box-shadow;
   margin: 0 auto;
 }
 
 .y-key-wrap__standard {
-  width: 1000px;
+  width: 100rem;
 
   .y-keyboard__main-area {
-    width: 650px;
+    width: 65rem;
   }
 
   .y-keyboard__sub-area {
-    width: 130px;
+    width: 13rem;
   }
 
   .y-keyboard__number-area {
-    width: 180px;
+    width: 18rem;
   }
 }
 

@@ -83,8 +83,8 @@ $gray-04: #666666;
 .y-key-wrap__title {
   text-align: center;
   color: $gray-04;
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 </style>

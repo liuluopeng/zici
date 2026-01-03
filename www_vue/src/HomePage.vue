@@ -116,7 +116,7 @@ const loadAndDrawCharacters = () => {
       // 创建新的绘制容器
       const charContainer = document.createElement('div');
       charContainer.style.textAlign = 'center'; // 居中显示
-      charContainer.style.padding = '10px'; // 添加内边距
+      charContainer.style.padding = '1rem'; // 添加内边距
 
       // 添加<h1>汉字</h1>标题
       const heading = document.createElement('h1');
@@ -143,9 +143,9 @@ const loadAndDrawCharacters = () => {
           mask.style.position = 'absolute';
           mask.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
           mask.style.color = 'white';
-          mask.style.padding = '20px';
-          mask.style.borderRadius = '8px';
-          mask.style.fontSize = '24px';
+          mask.style.padding = '2rem';
+          mask.style.borderRadius = '0.8rem';
+          mask.style.fontSize = '2.4rem';
           mask.style.fontWeight = 'bold';
           mask.style.zIndex = '1000';
           mask.style.textAlign = 'center';
@@ -183,9 +183,9 @@ const loadAndDrawCharacters = () => {
           mask.style.position = 'absolute';
           mask.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
           mask.style.color = 'white';
-          mask.style.padding = '20px';
-          mask.style.borderRadius = '8px';
-          mask.style.fontSize = '24px';
+          mask.style.padding = '2rem';
+          mask.style.borderRadius = '0.8rem';
+          mask.style.fontSize = '2.4rem';
           mask.style.fontWeight = 'bold';
           mask.style.zIndex = '1000';
           mask.style.textAlign = 'center';
@@ -276,7 +276,7 @@ const loadAndDrawCharacters = () => {
       style: {
         radicalColor: '#44f',
         backgroundColor: '#eee',
-        length: 60
+        length: 80
       },
       type: cnchar.draw.TYPE.ANIMATION,
       animation: {
@@ -339,22 +339,22 @@ onMounted(() => {
 .term-selector {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-  padding: 15px;
+  margin: 2rem 0;
+  padding: 1.5rem;
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 }
 
 .term-selector select {
-  padding: 12px 20px;
-  font-size: 18px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 1.2rem 2rem;
+  font-size: 1.8rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s;
-  min-width: 200px;
+  min-width: 20rem;
 }
 
 .term-selector select:hover {
@@ -368,13 +368,13 @@ onMounted(() => {
 }
 
 #draw-area {
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 2rem;
+  padding: 2rem;
   background-color: #f5f5f5;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 2rem;
   justify-items: center;
 }
 </style>

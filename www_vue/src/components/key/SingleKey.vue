@@ -83,7 +83,7 @@ const subValue = computed(() => {
   </div>
 </template>
 <style lang="scss">
-$unit: 40px;
+$unit: 4rem;
 
 .y-single-key {
   display: flex;
@@ -92,14 +92,14 @@ $unit: 40px;
   /* 键帽宽度 */
   height: $unit;
   /* 键帽高度 */
-  font-size: 36px;
+  font-size: 3.6rem;
   /* 字体大小 */
   font-weight: bold;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.4);
   /* 键帽阴影效果 */
-  padding: 6px;
-  margin: 4px 0;
+  padding: 0.6rem;
+  margin: 0.4rem 0;
   position: relative;
 
   &:after {
@@ -109,7 +109,7 @@ $unit: 40px;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     background-color: rgba(255, 255, 255, 0);
     transition: background-color 0.1s;
   }
@@ -117,7 +117,7 @@ $unit: 40px;
 
 .y-single-key--half {
   height: calc($unit / 2);
-  margin: 1px 0;
+  margin: 0.1rem 0;
 }
 
 .y-single-key--active {
@@ -128,7 +128,7 @@ $unit: 40px;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     background-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -141,7 +141,7 @@ $unit: 40px;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     background-color: rgba(255, 255, 255, 0.6);
   }
 }
@@ -156,7 +156,7 @@ $unit: 40px;
 }
 
 .y-single-key__small-size {
-  font-size: 12px;
+  font-size: 1.2rem;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
@@ -164,12 +164,12 @@ $unit: 40px;
 
 /* 这是单词类型的，比如 Enter Esc F1，字号需要小一点                                                                                                                           */
 .y-single-key__word {
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 .y-single-key__letter {
   align-items: start;
-  line-height: 10px;
+  line-height: 1rem;
 }
 
 .y-single-key--1 {

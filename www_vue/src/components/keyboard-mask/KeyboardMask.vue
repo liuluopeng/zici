@@ -60,7 +60,7 @@ watch(() => [props.show, props.clickX, props.clickY], ([isShowing, x, y]) => {
   if (isShowing && x && y) {
     // 计算键盘位置，使其在点击位置附近显示
     // 键盘默认居中显示，如果点击位置在屏幕边缘，会自动调整
-    keyboardPosition.top = y + 20; // 点击位置下方20px
+    keyboardPosition.top = y + 20; // 点击位置下方20px (注意：这里使用px是因为是相对于点击位置的像素偏移，不需要响应式)
     keyboardPosition.left = x;     // 点击位置的水平位置
   } else if (!isShowing) {
     // 当遮罩隐藏时，清除字符序列
@@ -259,10 +259,10 @@ const pressAndReleaseKey = (char: string) => {
   position: absolute;
   width: fit-content;
   margin: 0;
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem;
   background: #f0f2eb;
-  border-radius: 8px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -272,10 +272,10 @@ const pressAndReleaseKey = (char: string) => {
 .keyboard-wrap-mask.y-key-wrap__alphabet {
   width: fit-content;
   margin: 0;
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem;
   background: #f0f2eb;
-  border-radius: 8px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8rem;
+  box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -285,7 +285,7 @@ const pressAndReleaseKey = (char: string) => {
 .keyboard-wrap-mask .y-keyboard__line--alphabet {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 6px;
+  margin-bottom: 0.6rem;
   flex-wrap: nowrap;
   width: 100%;
   align-items: center;
@@ -293,7 +293,7 @@ const pressAndReleaseKey = (char: string) => {
 
 /* 为字母键盘按键添加水平间距 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet .y-single-key {
-  margin: 3px 2px;
+  margin: 0.3rem 0.2rem;
 }
 
 /* 确保键盘区域与字符序列垂直对齐 */
@@ -311,12 +311,12 @@ const pressAndReleaseKey = (char: string) => {
 
 /* 第二行字母（ASDFGHJKL）相对第一行居中 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet:nth-child(2) {
-  margin-left: 32px;
+  margin-left: 3.2rem;
 }
 
 /* 第三行字母（ZXCVBNM）相对第一行居中 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet:nth-child(3) {
-  margin-left: 72px;
+  margin-left: 7.2rem;
 }
 
 /* 确保键盘在屏幕边缘点击时不会超出视口 */
@@ -331,11 +331,11 @@ const pressAndReleaseKey = (char: string) => {
 /* 字符序列显示样式 */
 .typed-sequence-display {
   text-align: left;
-  font-size: 36px;
-  margin-bottom: 8px;
-  padding: 4px 0 4px 14px;
+  font-size: 3.6rem;
+  margin-bottom: 0.8rem;
+  padding: 0.4rem 0 0.4rem 1.4rem;
   color: #333;
-  min-height: 48px;
+  min-height: 4.8rem;
   width: 100%;
   position: relative;
   z-index: 1001;
