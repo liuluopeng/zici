@@ -7,7 +7,7 @@
             "config": {
                 "distDir": "dist",
                 "installCommand": "npm install --legacy-peer-deps",
-                "buildCommand": "npm run cnchar-prod && npm run build'"
+                "buildCommand": "bash -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y && source $HOME/.cargo/env && rustup target add wasm32-unknown-unknown && cargo install wasm-pack && cd ../ && wasm-pack build -d www_vue/pkg --target web && cd www_vue && npm install -g cnchar-data && npm run cnchar-prod && npm run build'"
             }
         }
     ],
