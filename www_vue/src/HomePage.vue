@@ -19,6 +19,8 @@ onMounted(async () => {
     await init();
     wasmInitialized.value = true;
     console.log('wasm模块初始化成功');
+    // WASM初始化完成后，自动加载和绘制汉字
+    loadAndDrawCharacters();
   } catch (error) {
     console.error('wasm模块初始化失败:', error);
   }
@@ -34,9 +36,9 @@ const clickX = ref(0);
 const clickY = ref(0);
 
 // 学期选择
-const selectedTerm = ref('6-2'); // 默认6年级下学期
 const currentGrade = ref(6);
 const currentTerm = ref(2);
+
 let charactersArray = [];
 
 // 初始化路由
@@ -57,20 +59,20 @@ const closeKeyboardMask = () => {
 };
 
 // 学期选择变化时的处理函数
-const handleTermChange = () => {
-  // 从selectedTerm解析出年级和学期
-  const [grade, term] = selectedTerm.value.split('-').map(Number);
+const handleTermChange = (event) => {
+  // 从选中的值解析出年级和学期
+  const [grade, term] = event.target.value.split('-').map(Number);
   currentGrade.value = grade;
   currentTerm.value = term;
   loadAndDrawCharacters();
 };
 
-// 监听学期选择变化，更新路由参数
-watch(selectedTerm, (newTerm) => {
+// 监听年级或学期变化，更新路由参数
+watch([currentGrade, currentTerm], ([newGrade, newTerm]) => {
   // 更新当前页面的路由参数
   router.replace({
     query: {
-      term: newTerm
+      term: `${newGrade}-${newTerm}`
     }
   });
 });
@@ -290,13 +292,11 @@ onMounted(() => {
   // 页面加载时从路由参数获取学期选择
   const routeTerm = router.currentRoute.value.query.term;
   if (routeTerm) {
-    selectedTerm.value = String(routeTerm);
-    const [grade, term] = selectedTerm.value.split('-').map(Number);
+    const [grade, term] = String(routeTerm).split('-').map(Number);
     currentGrade.value = grade;
     currentTerm.value = term;
   }
-  // 页面加载时首次加载和绘制汉字
-  loadAndDrawCharacters();
+  // 不再在此处直接调用loadAndDrawCharacters()，改为在WASM初始化完成后调用
 });
 </script>
 
@@ -306,7 +306,7 @@ onMounted(() => {
 
     <!-- 学期选择框 -->
     <div class="term-selector">
-      <select v-model="selectedTerm" @change="handleTermChange">
+      <select :value="`${currentGrade}-${currentTerm}`" @change="handleTermChange">
         <option value="1-1">1年级上学期</option>
         <option value="1-2">1年级下学期</option>
         <option value="2-1">2年级上学期</option>
