@@ -6,8 +6,11 @@ import HanziWriter from 'hanzi-writer';
 // 导入键盘遮罩组件
 import KeyboardMask from '@/components/keyboard-mask/KeyboardMask.vue';
 
-// 导入wasm函数
-import { get_new_chars } from 'my-wasm';
+// 导入wasm函数和初始化函数
+import init, { get_new_chars } from 'my-wasm';
+
+// 标记wasm是否已初始化
+const wasmInitialized = ref(false);
 
 // 测验是否正确
 const quiz_is_right = ref(false);
@@ -71,6 +74,11 @@ const closeKeyboardMask = () => {
 
 // 从wasm加载当前学期的汉字
 const getCurrentTermChars = () => {
+  if (!wasmInitialized.value) {
+    console.warn('wasm模块未初始化，跳过汉字加载');
+    return [];
+  }
+
   try {
     getTermFromRoute(); // 从路由获取学期信息
     // 调用wasm的get_new_chars函数获取对应学期的汉字
@@ -324,7 +332,14 @@ watch(() => route.query.term, (newTerm) => {
 });
 
 // 组件挂载时加载汉字
-onMounted(() => {
+onMounted(async () => {
+  try {
+    await init();
+    wasmInitialized.value = true;
+    console.log('wasm模块初始化成功');
+  } catch (error) {
+    console.error('wasm模块初始化失败:', error);
+  }
   loadFirstChar();
 });
 

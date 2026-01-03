@@ -7,13 +7,22 @@ import KeyboardMask from '@/components/keyboard-mask/KeyboardMask.vue';
 
 
 
-import { my_console_log } from 'my-wasm';
-import { get_new_chars } from 'my-wasm';
+// 导入wasm函数和初始化函数
+import init, { my_console_log, get_new_chars } from 'my-wasm';
 
-my_console_log("Hello, wasm_zici!");
+// 标记wasm是否已初始化
+const wasmInitialized = ref(false);
 
-const newChars = get_new_chars(6, 2);
-my_console_log("newChars:", newChars);
+// 初始化wasm模块
+onMounted(async () => {
+  try {
+    await init();
+    wasmInitialized.value = true;
+    console.log('wasm模块初始化成功');
+  } catch (error) {
+    console.error('wasm模块初始化失败:', error);
+  }
+});
 
 
 
@@ -68,11 +77,20 @@ watch(selectedTerm, (newTerm) => {
 
 // 加载和绘制汉字的函数
 const loadAndDrawCharacters = () => {
+  if (!wasmInitialized.value) {
+    console.warn('wasm模块未初始化，跳过汉字加载');
+    return;
+  }
+
   var drawArea = document.getElementById('draw-area');
 
   // 从wasm获取汉字
-  charactersArray = get_new_chars(currentGrade.value, currentTerm.value);
-  my_console_log('从wasm获取的汉字数组:', charactersArray);
+  try {
+    charactersArray = get_new_chars(currentGrade.value, currentTerm.value);
+    console.log('从wasm获取的汉字数组:', charactersArray);
+  } catch (error) {
+    console.error('调用wasm函数失败:', error);
+  }
 
   // 验证所有字符都是中文
   const isValidChinese = (char) => {
