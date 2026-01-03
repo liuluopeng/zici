@@ -1,15 +1,22 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
+
+
+
+
+
+
 </script>
 
 <template>
   <div class="app-container">
     <!-- 路由导航 -->
     <nav class="nav">
-      <router-link to="/">生字</router-link>
-      <router-link to="/dictation">听写</router-link>
+      <router-link :to="{ path: '/', query: route.query }">生字</router-link>
+      <router-link :to="{ path: '/dictation', query: route.query }">听写</router-link>
     </nav>
 
     <!-- 路由出口 -->

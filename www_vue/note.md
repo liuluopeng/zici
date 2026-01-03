@@ -12,7 +12,8 @@ package.json  scripts  中添加
 npm run cnchar-serve
 `
 
-
+全局安装使用 生成 了`cnchar-serve-prod`
+npm i cnchar-data -g
 
 
 ```

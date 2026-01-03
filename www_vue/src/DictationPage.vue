@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import cnchar from 'cnchar-all';
 import HanziWriter from 'hanzi-writer';
 // 导入键盘遮罩组件
 import KeyboardMask from '@/components/keyboard-mask/KeyboardMask.vue';
 
-// 汉字列表
-const characters = ref<string[]>([]);
+// 导入wasm函数
+import { get_new_chars } from 'my-wasm';
+
 // 测验是否正确
 const quiz_is_right = ref(false);
 // 当前汉字
@@ -15,10 +17,10 @@ const currentChar = ref('');
 const currentPinyin = ref('');
 // 词语列表
 const topWords = ref<string[]>([]);
-// 已经听写过的汉字索引
-const usedIndices = ref<number[]>([]);
-// 当前在已用列表中的位置
-const currentPosition = ref(-1);
+// 历史选择的汉字
+const history_chars = ref<string[]>([]);
+// 当前在历史记录中的位置
+const current_char_index = ref(-1);
 // HanziWriter引用
 const writerContainer = ref<HTMLElement | null>(null);
 let writer: any = null;
@@ -32,6 +34,25 @@ const notification = ref({ visible: false, message: '', type: 'info' as 'success
 const showKeyboardMask = ref(false);
 const clickX = ref(0);
 const clickY = ref(0);
+
+// 初始化路由
+const route = useRoute();
+
+// 学期信息
+const currentGrade = ref(6);
+const currentTerm = ref(2);
+
+// 从路由参数获取学期信息
+const getTermFromRoute = () => {
+  const termParam = route.query.term as string;
+  if (termParam && /^[1-6]-[1-2]$/.test(termParam)) {
+    const [grade, term] = termParam.split('-').map(Number);
+    currentGrade.value = grade;
+    currentTerm.value = term;
+    return true;
+  }
+  return false;
+};
 
 // 打开键盘遮罩
 const openKeyboardMask = (event) => {
@@ -48,21 +69,29 @@ const closeKeyboardMask = () => {
   showKeyboardMask.value = false;
 };
 
-// 从txt文件加载汉字
-const loadCharacters = async () => {
+// 从wasm加载当前学期的汉字
+const getCurrentTermChars = () => {
   try {
-    const response = await fetch('/生字.txt');
-    const text = await response.text();
-    // 将文本按字符分割成数组，过滤掉空字符
-    characters.value = text.split('').filter(char => char.trim());
-    // 设置第一个随机汉字
-    selectRandomChar();
+    getTermFromRoute(); // 从路由获取学期信息
+    // 调用wasm的get_new_chars函数获取对应学期的汉字
+    const chars = get_new_chars(currentGrade.value, currentTerm.value);
+    // 确保返回的是数组
+    if (Array.isArray(chars) && chars.length > 0) {
+      return chars;
+    } else {
+      console.warn('未获取到汉字数据，可能是学期参数有误');
+      return [];
+    }
   } catch (error) {
     console.error('加载汉字失败:', error);
-    // 如果加载失败，使用默认的汉字列表
-    characters.value = '天地人你我他一二三四五上下口耳目手足站坐日月水火山石田禾对云雨风花鸟虫六七八九十爸妈马土不画打棋鸡字词语句子桌纸文数学音乐妹奶小桥台雪儿白草家是车路灯走秋气了树叶片大飞会个的船两头在里看见闪星江南可采莲鱼东西北尖说春青蛙夏弯皮冬男女开关正反远有色近听无声去还来多少黄牛只猫边鸭苹果杏桃书包尺作业本笔刀课早校明力尘从众双木林森条心升国旗中红歌起么美丽立午晚昨今年影前后黑狗左右它好朋友比尾巴谁长短把伞兔最公写诗点要过给当串们以成彩半空问到方没更绿出睡那海真老师吗同什才亮时候觉得自己很穿衣服门快蓝又笑着向和贝娃挂活金哥姐弟叔爷群竹牙用几步为参加洞乌鸦处找办旁许法放进高住孩玩吧发芽爬呀久回全变工厂医院生'.split('');
-    selectRandomChar();
+    return [];
   }
+};
+
+// 初始化加载第一个汉字
+const loadFirstChar = () => {
+  getTermFromRoute();
+  selectRandomChar();
 };
 
 // 处理词语中的汉字，将与当前测验汉字相同的字替换为田字格
@@ -78,8 +107,6 @@ const processWord = (word: string): { type: 'char' | 'tianzige'; value: string }
 
 // 随机选择一个汉字
 const selectRandomChar = () => {
-  if (characters.value.length === 0) return;
-
   // 如果当前显示答案，先翻回正面
   if (quiz_is_right.value) {
     quiz_is_right.value = false;
@@ -95,24 +122,26 @@ const selectRandomChar = () => {
 
 // 加载下一个汉字的实际逻辑
 const loadNextChar = () => {
-  // 如果所有汉字都用过了，重置已用列表
-  if (usedIndices.value.length >= characters.value.length) {
-    usedIndices.value = [];
+  // 获取当前学期的汉字
+  const chars = getCurrentTermChars();
+  if (chars.length === 0) return;
+
+  // 随机选择一个汉字
+  const randomIndex = Math.floor(Math.random() * chars.length);
+  const randomChar = chars[randomIndex];
+
+  // 如果当前不是最后一个历史记录，则截断后续记录
+  if (current_char_index.value < history_chars.value.length - 1) {
+    history_chars.value = history_chars.value.slice(0, current_char_index.value + 1);
   }
 
-  let randomIndex;
-  // 随机选择一个未使用过的汉字
-  do {
-    randomIndex = Math.floor(Math.random() * characters.value.length);
-  } while (usedIndices.value.includes(randomIndex));
-
-  // 记录使用过的索引
-  usedIndices.value.push(randomIndex);
+  // 添加到历史记录
+  history_chars.value.push(randomChar);
   // 更新当前位置
-  currentPosition.value = usedIndices.value.length - 1;
+  current_char_index.value = history_chars.value.length - 1;
 
   // 设置当前汉字
-  currentChar.value = characters.value[randomIndex];
+  currentChar.value = randomChar;
 
   // 同时继续执行原来的词语朗读功能
   const words = cnchar.words(currentChar.value);
@@ -139,7 +168,7 @@ const nextRandomChar = () => {
 
 // 上一个汉字
 const prevChar = () => {
-  if (currentPosition.value <= 0) return;
+  if (current_char_index.value <= 0) return;
 
   // 如果当前显示答案，先翻回正面
   if (quiz_is_right.value) {
@@ -156,9 +185,9 @@ const prevChar = () => {
 
 // 加载上一个汉字的实际逻辑
 const loadPrevChar = () => {
-  currentPosition.value--;
-  const prevIndex = usedIndices.value[currentPosition.value];
-  currentChar.value = characters.value[prevIndex];
+  current_char_index.value--;
+  const prevChar = history_chars.value[current_char_index.value];
+  currentChar.value = prevChar;
   currentPinyin.value = String(cnchar.spell(currentChar.value));
 
   // 获取上一个汉字的词语
@@ -284,9 +313,19 @@ watch(currentChar, (newChar) => {
   }
 });
 
+// 监听路由参数变化，当学期参数变化时重新加载汉字
+watch(() => route.query.term, (newTerm) => {
+  if (newTerm) {
+    // 清空历史记录
+    history_chars.value = [];
+    current_char_index.value = -1;
+    loadFirstChar();
+  }
+});
+
 // 组件挂载时加载汉字
 onMounted(() => {
-  loadCharacters();
+  loadFirstChar();
 });
 
 // 组件卸载时清理资源
