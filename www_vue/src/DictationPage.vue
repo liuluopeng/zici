@@ -273,10 +273,14 @@ const initHanziWriter = () => {
     }
   }
 
+  // 动态计算HanziWriter的尺寸，基于容器的实际大小
+  const containerRect = writerContainer.value.getBoundingClientRect();
+  const size = Math.min(containerRect.width, containerRect.height);
+
   // 创建新的writer实例
   writer = HanziWriter.create(writerContainer.value, currentChar.value, {
-    width: 400,
-    height: 400,
+    width: size,
+    height: size,
     showCharacter: false,
     padding: 0,
     strokeAnimationSpeed: 2,
@@ -331,6 +335,21 @@ watch(() => route.query.term, (newTerm) => {
   }
 });
 
+// 处理窗口大小变化
+const handleResize = () => {
+  if (writer && currentChar.value) {
+    // 销毁当前实例
+    if (typeof writer.destroy === 'function') {
+      writer.destroy();
+    }
+    writer = null;
+    // 重新初始化
+    setTimeout(() => {
+      initHanziWriter();
+    }, 100);
+  }
+};
+
 // 组件挂载时加载汉字
 onMounted(async () => {
   try {
@@ -341,10 +360,17 @@ onMounted(async () => {
     console.error('wasm模块初始化失败:', error);
   }
   loadFirstChar();
+
+  // 添加窗口大小变化监听
+  window.addEventListener('resize', handleResize);
 });
 
 // 组件卸载时清理资源
 onUnmounted(() => {
+  // 移除窗口大小变化监听
+  window.removeEventListener('resize', handleResize);
+
+  // 销毁writer实例
   if (writer) {
     try {
       if (typeof writer.destroy === 'function') {
