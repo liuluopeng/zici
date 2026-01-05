@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../HomePage.vue'
 import DictationPage from '../DictationPage.vue'
+import PinyinPage from '../PinyinPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +16,12 @@ const router = createRouter({
       path: '/dictation',
       name: 'DictationPage',
       component: DictationPage
+    },
+
+    {
+      path: '/pinyin',
+      name: 'Pinyin',
+      component: PinyinPage
     }
   ]
 })

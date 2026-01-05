@@ -34,8 +34,7 @@ const props = defineProps({
   }
 });
 
-// 定义组件events
-const emit = defineEmits(['close']);
+
 
 // 键盘按键状态
 const keysPressed = ref({});
@@ -131,16 +130,7 @@ watch(() => [props.char, props.show], ([newChar, isShowing]) => {
   }
 });
 
-// 关闭键盘遮罩
-const closeKeyboardMask = () => {
-  // 清空按键状态，解决阴影残留问题
-  keysPressed.value = {};
-  // 清除所有定时器
-  clearAllTimers();
-  // 清除字符序列
-  typedSequence.value = '';
-  emit('close');
-};
+
 
 // 播放拼音按键动画 - 循环播放
 const playPinyinAnimation = (char: string) => {
@@ -224,9 +214,8 @@ const pressAndReleaseKey = (char: string) => {
 </script>
 
 <template>
-  <div v-if="show" class="keyboard-mask" @click="closeKeyboardMask">
-    <key-wrap title="" className="y-key-wrap__standard y-key-wrap__alphabet keyboard-wrap-mask"
-      :style="{ top: `${keyboardPosition.top}px`, left: `${keyboardPosition.left}px` }" @click.stop>
+  <div class="keyboard-mask">
+    <key-wrap title="" className="y-key-wrap__standard y-key-wrap__alphabet keyboard-wrap-mask">
       <!-- 显示打下的字符序列 -->
       <div class="typed-sequence-display">{{ typedSequence }}</div>
 
@@ -245,32 +234,29 @@ const pressAndReleaseKey = (char: string) => {
 <style scoped lang="scss">
 /* 键盘遮罩样式 */
 .keyboard-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: static;
   width: 100%;
-  height: 100%;
   background-color: transparent;
-  z-index: 1000;
+  z-index: 1;
 }
 
 /* 直接使用key-wrap作为遮罩的核心内容 */
 .keyboard-wrap-mask {
-  position: absolute;
-  width: fit-content;
+  position: relative;
+  width: 100%;
   margin: 0;
-  padding: 0.8rem 1.2rem;
+  padding: 0.6rem 0.9rem;
   background: #f0f2eb;
-  border-radius: 0.8rem;
+  border-radius: 0.6rem;
   box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
+  transform: none;
 }
 
 /* 字母键盘特定样式 */
 .keyboard-wrap-mask.y-key-wrap__alphabet {
-  width: fit-content;
+  width: 100%;
   margin: 0;
   padding: 0.8rem 1.2rem;
   background: #f0f2eb;
@@ -278,14 +264,14 @@ const pressAndReleaseKey = (char: string) => {
   box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 /* 键盘行样式 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
   flex-wrap: nowrap;
   width: 100%;
   align-items: center;
@@ -293,7 +279,7 @@ const pressAndReleaseKey = (char: string) => {
 
 /* 为字母键盘按键添加水平间距 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet .y-single-key {
-  margin: 0.3rem 0.2rem;
+  margin: 0.2rem 0.15rem;
 }
 
 /* 确保键盘区域与字符序列垂直对齐 */
@@ -311,12 +297,12 @@ const pressAndReleaseKey = (char: string) => {
 
 /* 第二行字母（ASDFGHJKL）相对第一行居中 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet:nth-child(2) {
-  margin-left: 3.2rem;
+  margin-left: 1.8rem;
 }
 
 /* 第三行字母（ZXCVBNM）相对第一行居中 */
 .keyboard-wrap-mask .y-keyboard__line--alphabet:nth-child(3) {
-  margin-left: 7.2rem;
+  margin-left: 4.1rem;
 }
 
 /* 确保键盘在屏幕边缘点击时不会超出视口 */

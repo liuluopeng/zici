@@ -618,7 +618,7 @@ onUnmounted(() => {
 }
 
 .char {
-  font-size: 12rem;
+  font-size: 12.5rem;
   color: #2c3e50;
   font-weight: bold;
   font-family: 'KaiTi SC', 'KaiTi', 'STKaiti', 'SimKai', cursive, sans-serif;
@@ -874,7 +874,7 @@ onUnmounted(() => {
   }
 
   .char {
-    font-size: 9rem;
+    font-size: 11rem;
   }
 
   .speak-btn,
@@ -901,7 +901,7 @@ onUnmounted(() => {
   }
 
   .char {
-    font-size: 7rem;
+    font-size: 9rem;
   }
 
   .speak-btn,

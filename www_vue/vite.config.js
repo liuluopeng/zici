@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+
 import wasm from 'vite-plugin-wasm'
 import { copyFileSync, mkdirSync, readdirSync, existsSync } from 'fs'
 import { resolve } from 'path'
@@ -56,7 +56,6 @@ export default defineConfig({
   base: "./",
   plugins: [
     vue(),
-    vueDevTools(),
     wasm(),
     copyCncharData // 添加自定义插件
   ],

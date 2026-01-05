@@ -75,15 +75,15 @@ const subValue = computed(() => {
     isKeyPressed ? 'y-single-key--pressed' : '',
     heightType === 'half' ? 'y-single-key--half' : ''
   ]" :style="{
-      backgroundColor,
-      color
-    }">
+    backgroundColor,
+    color
+  }">
     <span v-if="subValue" class="y-single-key__sub-value">{{ subValue }}</span>
     <span class="y-single-key__value">{{ value }}</span>
   </div>
 </template>
 <style lang="scss">
-$unit: 4rem;
+$unit: 2.2rem;
 
 .y-single-key {
   display: flex;
@@ -92,7 +92,7 @@ $unit: 4rem;
   /* 键帽宽度 */
   height: $unit;
   /* 键帽高度 */
-  font-size: 3.6rem;
+  font-size: 1.8rem;
   /* 字体大小 */
   font-weight: bold;
   border-radius: 0.5rem;

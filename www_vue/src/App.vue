@@ -16,6 +16,7 @@ const route = useRoute();
     <!-- 路由导航 -->
     <nav class="nav">
       <router-link :to="{ path: '/', query: route.query }">生字</router-link>
+      <router-link :to="{ path: '/pinyin', query: route.query }">拼音</router-link>
       <router-link :to="{ path: '/dictation', query: route.query }">听写</router-link>
     </nav>
 
