@@ -31,25 +31,42 @@ const consonantFullPinyin = {
   'y': 'yi',
   'w': 'wu'
 };
-const finalVowels = ref(['a', 'o', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ui', 'ao', 'ou', 'iu', 'ie', 'üe', 'er', 'an', 'en', 'in', 'un', 'ün', 'ang', 'eng', 'ing', 'ong']);
+const finalVowels = ref(['a', 'o', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ui', 'ao', 'ou', 'iu', 'ie', 'üe', 'er', 'an', 'en', 'in', 'un', 'ün', 'ang', 'eng', 'ing', 'ong', 'ia', 'iao', 'iang', 'ua', 'uan', 'uang', 'uo']);
 
 // 完整拼音列表（包含所有可能的组合和声调）
 const allPinyin = ref([]);
 
-// 拼音表格数据，二维数组：[韵母][声母] = 拼音组合
+// 拼音表格数据，二维数组：[声母][韵母] = 拼音组合
 const pinyinTableData = ref([]);
 
-// 检查拼音组合是否可能存在
-const isPossiblePinyin = (consonant, vowel) => {
-  // 过滤掉不可能的组合
-  return !(consonant === 'j' && (vowel === 'u' || vowel === 'uo' || vowel === 'ong')) &&
-    !(consonant === 'q' && (vowel === 'u' || vowel === 'uo' || vowel === 'ong')) &&
-    !(consonant === 'x' && (vowel === 'u' || vowel === 'uo' || vowel === 'ong')) &&
-    !(consonant === 'zh' && vowel === 'i') &&
-    !(consonant === 'ch' && vowel === 'i') &&
-    !(consonant === 'sh' && vowel === 'i') &&
-    !(consonant === 'r' && vowel === 'i');
-};
+// 拼音字典：key是声母，value是可搭配的韵母数组
+const pinyinDictionary = ref({
+  'b': ['a', 'o', 'i', 'u', 'ai', 'ei', 'ao', 'an', 'ie', 'en', 'in', 'ang', 'eng', 'ing', 'ian', 'iao',],
+  'p': ['a', 'o', 'i', 'u', 'ai', 'ei', 'ao', 'ou', 'ie', 'an', 'en', 'in', 'ang', 'eng', 'ing', 'iao', 'ian'],
+  'm': ['a', 'o', 'e', 'i', 'u', 'ai', 'ei', 'ao', 'ou', 'ie', 'an', 'en', 'in', 'ang', 'eng', 'ing', 'iao', 'ian'],
+  'f': ['a', 'o', 'u', 'ei', 'ou', 'an', 'en', 'ang', 'eng',],
+  'd': ['a', 'e', 'i', 'u', 'ai', 'ei', 'ui', 'ao', 'ou', 'iu', 'ie', 'an', 'en', 'un', 'ang', 'eng', 'ing', 'ong', 'iao', 'ian', 'uan', 'uo'],
+  't': ['a', 'e', 'i', 'u', 'ai', 'ei', 'ao', 'ou', 'ie', 'an', 'un', 'ang', 'eng', 'ing', 'ong', 'iao', 'ian', 'uan', 'uo'],
+  'n': ['a', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ao', 'iu', 'ie', 'üe', 'an', 'en', 'in', 'un', 'ang', 'eng', 'ing', 'ong', 'iao', 'ian', 'iang', 'uan', 'uo'],
+  'l': ['a', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ao', 'ou', 'iu', 'ie', 'üe', 'an', 'in', 'un', 'ang', 'eng', 'ing', 'ong', 'iao', 'ian', 'iang', 'uan', 'uo'],
+  'g': ['a', 'e', 'u', 'ai', 'ei', 'ui', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong', 'ua', 'uan', 'uang', 'uo'],
+  'k': ['a', 'e', 'u', 'ai', 'ui', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong', 'ua', 'uan', 'uang', 'uo'],
+  'h': ['a', 'e', 'u', 'ai', 'ui', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong', 'ua', 'uan', 'uang', 'uo'],
+  'j': ['i', 'u', 'iu', 'ie', 'ue', 'ia', 'ie', 'iao', 'ian', 'in', 'iang', 'iong',],
+  'q': ['i', 'u', 'iu', 'ie', 'ue', 'ia', 'ie', 'iao', 'ian', 'in', 'iang', 'iong',],
+  'x': ['i', 'u', 'iu', 'ie', 'ue', 'ia', 'ie', 'iao', 'ian', 'in', 'iang', 'iong',],
+  'zh': ['a', 'e', 'u', 'ai', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  'ch': ['a', 'e', 'u', 'ai', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  'sh': ['a', 'e', 'u', 'ai', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng',],
+  'r': ['e', 'u', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  'z': ['a', 'e', 'u', 'ai', 'ei', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  'c': ['a', 'e', 'u', 'ai', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  's': ['a', 'e', 'u', 'ai', 'ao', 'ou', 'an', 'en', 'un', 'ang', 'eng', 'ong'],
+  'y': ['i', 'u', 'a', 'o', 'e', 'ao', 'ou', 'an', 'in', 'un', 'ang', 'ing', 'ong', 'uan',],
+  'w': ['a', 'o', 'u', 'ai', 'ei', 'an', 'en', 'ang', 'eng',]
+});
+
+
 
 // 生成带声调的拼音和对应的数字声调标记
 const generateTonedPinyin = (pinyin) => {
@@ -121,59 +138,48 @@ const getExampleChar = (pinyinWithNumberTone) => {
 };
 
 // 点击发音函数
-const speakText = (pinyinWithNumberTone) => {
-  if (pinyinWithNumberTone) {
-    // 首先获取拼音对应的示例汉字
-    const exampleChar = getExampleChar(pinyinWithNumberTone);
-    if (exampleChar) {
-      // 使用示例汉字进行发音
-      cnchar.voice.speak(exampleChar);
-    }
+const speakText = (pinyin) => {
+  if (!pinyin) return;
+
+  // 检查是否是韵母
+  if (finalVowels.value.includes(pinyin)) {
+    // 韵母直接发音
+    cnchar.voice.speak(pinyin);
+    return;
   }
-};
 
-// 生成所有可能的拼音组合
-const generateAllPinyin = () => {
-  const pinyinList = [];
+  // 检查是否是声母完整拼音
+  const isConsonantFullPinyin = Object.values(consonantFullPinyin).includes(pinyin);
+  if (isConsonantFullPinyin) {
+    // 声母完整拼音直接发音
+    cnchar.voice.speak(pinyin);
+    return;
+  }
 
-  // 添加单韵母
-  finalVowels.value.forEach(vowel => {
-    generateTonedPinyin(vowel).forEach(toned => {
-      pinyinList.push(toned);
-    });
-  });
-
-  // 添加声母+韵母组合
-  initialConsonants.value.forEach(consonant => {
-    finalVowels.value.forEach(vowel => {
-      if (isPossiblePinyin(consonant, vowel)) {
-        generateTonedPinyin(consonant + vowel).forEach(toned => {
-          pinyinList.push(toned);
-        });
-      }
-    });
-  });
-
-  // 去重并排序
-  return [...new Set(pinyinList)].sort();
+  // 数字声调标记（如 a1, bo2）
+  const exampleChar = getExampleChar(pinyin);
+  if (exampleChar) {
+    cnchar.voice.speak(exampleChar);
+  }
 };
 
 // 生成拼音表格数据
 const generatePinyinTableData = () => {
   const tableData = [];
 
-  // 遍历所有韵母
-  finalVowels.value.forEach(vowel => {
+  // 遍历所有声母
+  initialConsonants.value.forEach(consonant => {
     const row = [];
 
-    // 遍历所有声母
-    initialConsonants.value.forEach(consonant => {
-      if (isPossiblePinyin(consonant, vowel)) {
-        // 如果组合可能存在，生成带声调的拼音
+    // 遍历所有韵母
+    finalVowels.value.forEach(vowel => {
+      // 检查该声母是否可以搭配该韵母
+      if (pinyinDictionary.value[consonant] && pinyinDictionary.value[consonant].includes(vowel)) {
+        // 如果组合合法，生成带声调的拼音
         const fullPinyin = consonant + vowel;
         row.push(generateTonedPinyin(fullPinyin));
       } else {
-        // 如果组合不可能存在，添加null
+        // 如果组合不合法，添加null
         row.push(null);
       }
     });
@@ -185,8 +191,6 @@ const generatePinyinTableData = () => {
 };
 
 onMounted(() => {
-  // 生成所有拼音
-  allPinyin.value = generateAllPinyin();
   // 生成拼音表格数据
   pinyinTableData.value = generatePinyinTableData();
 });
@@ -202,16 +206,8 @@ onMounted(() => {
     <section class="pinyin-section">
       <h2>韵母（点击发音）</h2>
       <div class="vowel-grid">
-        <div v-for="(vowel, index) in finalVowels" :key="index" class="vowel-group">
-          <div class="vowel-header">{{ vowel }}</div>
-          <div class="vowel-tones">
-            <div v-for="(tonedVowel, toneIndex) in generateTonedPinyin(vowel)" :key="toneIndex" class="pinyin-item"
-              @click="speakText(tonedVowel.withNumberTone)">
-              <div class="pinyin-text">{{ tonedVowel.withToneMark }}</div>
-              <div v-if="getExampleChar(tonedVowel.withNumberTone)" class="example-char">{{
-                getExampleChar(tonedVowel.withNumberTone) }}</div>
-            </div>
-          </div>
+        <div v-for="(vowel, index) in finalVowels" :key="index" class="vowel-item" @click="speakText(vowel)">
+          <div class="vowel-text">{{ vowel }}</div>
         </div>
       </div>
     </section>
@@ -220,16 +216,9 @@ onMounted(() => {
       <section class="pinyin-section">
         <h2>声母（点击发音）</h2>
         <div class="vowel-grid">
-          <div v-for="(consonant, index) in initialConsonants" :key="index" class="vowel-group">
-            <div class="vowel-header">{{ consonant }}</div>
-            <div class="vowel-tones">
-              <div v-for="(tonedPinyin, toneIndex) in generateTonedPinyin(consonantFullPinyin[consonant])"
-                :key="toneIndex" class="pinyin-item" @click="speakText(tonedPinyin.withNumberTone)">
-                <div class="pinyin-text">{{ tonedPinyin.withToneMark }}</div>
-                <div v-if="getExampleChar(tonedPinyin.withNumberTone)" class="example-char">{{
-                  getExampleChar(tonedPinyin.withNumberTone) }}</div>
-              </div>
-            </div>
+          <div v-for="(consonant, index) in initialConsonants" :key="index" class="vowel-item"
+            @click="speakText(consonantFullPinyin[consonant])">
+            <div class="vowel-text">{{ consonant }}</div>
           </div>
         </div>
       </section>
@@ -239,27 +228,32 @@ onMounted(() => {
         <h2>所有拼音表格</h2>
         <div class="pinyin-table-container">
           <table class="pinyin-table">
-            <!-- 表头：声母 -->
+            <!-- 表头：韵母 -->
             <thead>
               <tr>
-                <th></th> <!-- 空白单元格，用于显示韵母 -->
-                <th v-for="(consonant, index) in initialConsonants" :key="index" class="consonant-header">
-                  {{ consonant }}
+                <th></th> <!-- 空白单元格，用于显示声母 -->
+                <th v-for="(vowel, index) in finalVowels" :key="index" class="vowel-header">
+                  {{ vowel }}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <!-- 表格内容：行是韵母，列是声母 -->
+              <!-- 表格内容：行是声母，列是韵母 -->
               <tr v-for="(row, rowIndex) in pinyinTableData" :key="rowIndex">
-                <td class="vowel-label">{{ finalVowels[rowIndex] }}</td>
+                <td class="consonant-label">{{ initialConsonants[rowIndex] }}</td>
                 <td v-for="(cell, colIndex) in row" :key="colIndex" class="pinyin-cell">
-                  <div v-if="cell" class="pinyin-tone-group">
-                    <div v-for="(tonedPinyin, toneIndex) in cell" :key="toneIndex" class="pinyin-item"
-                      @click="speakText(tonedPinyin.withNumberTone)">
-                      <div class="pinyin-text">{{ tonedPinyin.withToneMark }}</div>
-                      <div v-if="getExampleChar(tonedPinyin.withNumberTone)" class="example-char">
-                        {{ getExampleChar(tonedPinyin.withNumberTone) }}
-                      </div>
+                  <div v-if="cell" class="pinyin-simple" @click="speakText(cell[0].withNumberTone)">
+                    <div class="pinyin-text">{{cell[0].withToneMark.replace(/[āáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜ]/g, (match) => {
+                      const toneMap =
+                      {
+                        'ā': 'a', 'á': 'a', 'ǎ': 'a', 'à': 'a', 'ō': 'o', 'ó': 'o', 'ǒ': 'o', 'ò': 'o', 'ē': 'e', 'é':
+                          'e', 'ě': 'e', 'è': 'e', 'ī': 'i', 'í': 'i', 'ǐ': 'i', 'ì': 'i', 'ū': 'u', 'ú': 'u', 'ǔ': 'u',
+                        'ù': 'u', 'ǖ': 'ü', 'ǘ': 'ü', 'ǚ': 'ü', 'ǜ': 'ü'
+                      };
+                      return toneMap[match] || match;
+                    })}}</div>
+                    <div v-if="getExampleChar(cell[0].withNumberTone)" class="example-char">
+                      {{ getExampleChar(cell[0].withNumberTone) }}
                     </div>
                   </div>
                   <div v-else class="empty-cell"></div>
@@ -276,8 +270,8 @@ onMounted(() => {
 <style scoped lang="scss">
 .pinyin-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 2rem;
+  background-color: #ffffff;
+  padding: 0;
 }
 
 .page-header {
@@ -292,15 +286,16 @@ onMounted(() => {
 }
 
 .page-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .pinyin-section {
   background-color: white;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem;
   margin-bottom: 2rem;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   h2 {
@@ -320,8 +315,37 @@ onMounted(() => {
 
 .vowel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 1rem;
+}
+
+.vowel-item {
+  background-color: #f0f8ff;
+  border: 1px solid #b3e5fc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #1976d2;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #b3e5fc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.vowel-text {
+  font-size: 1.5rem;
+  color: #1976d2;
+  font-weight: bold;
 }
 
 .vowel-group {
@@ -385,12 +409,14 @@ onMounted(() => {
 .pinyin-table-container {
   overflow-x: auto;
   margin-top: 1rem;
+  width: 100%;
+  max-width: none;
 }
 
 .pinyin-table {
-  width: 100%;
+  width: 3000px;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .pinyin-table th,
@@ -410,11 +436,11 @@ onMounted(() => {
   z-index: 10;
 }
 
-.consonant-header {
-  width: 60px;
+.vowel-header {
+  width: 100px;
 }
 
-.vowel-label {
+.consonant-label {
   background-color: #e8f5e9;
   font-weight: bold;
   color: #2e7d32;
@@ -424,10 +450,9 @@ onMounted(() => {
 }
 
 .pinyin-cell {
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 100px;
   background-color: #fafafa;
-  height: 100px;
+  height: 60px;
   vertical-align: middle;
 }
 
@@ -440,6 +465,29 @@ onMounted(() => {
   height: 100%;
 }
 
+.pinyin-simple {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  border-radius: 4px;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &:hover {
+    background-color: #c8e6c9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .empty-cell {
   background-color: #f5f5f5;
 }
@@ -448,17 +496,27 @@ onMounted(() => {
 @media (max-width: 768px) {
   .pinyin-page {
     padding: 1rem;
+    background-color: #ffffff;
   }
 
   .vowel-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .vowel-item {
+    padding: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .vowel-text {
+    font-size: 1.2rem;
   }
 
   .pinyin-cell {
-    min-width: 120px;
-    max-width: 120px;
-    height: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    height: 50px;
   }
 
   .pinyin-text {
