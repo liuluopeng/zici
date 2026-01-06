@@ -5,10 +5,33 @@ import { useRouter } from 'vue-router';
 // 导入键盘遮罩组件
 import KeyboardMask from '@/components/keyboard-mask/KeyboardMask.vue';
 
+// 导入wasm初始化函数和函数
+import init, { my_console_log, get_new_chars } from 'my-wasm';
 
+// 标记wasm是否已初始化
+const wasmInitialized = ref(false);
 
-// 导入wasm函数
-import { my_console_log, get_new_chars } from 'my-wasm';
+// 初始化wasm模块
+onMounted(async () => {
+  try {
+    await init();
+    wasmInitialized.value = true;
+    console.log('wasm模块初始化成功');
+
+    // 页面加载时从路由参数获取学期选择
+    const routeTerm = router.currentRoute.value.query.term;
+    if (routeTerm) {
+      const [grade, term] = String(routeTerm).split('-').map(Number);
+      currentGrade.value = grade;
+      currentTerm.value = term;
+    }
+
+    // WASM初始化完成后，自动加载和绘制汉字
+    loadAndDrawCharacters();
+  } catch (error) {
+    console.error('wasm模块初始化失败:', error);
+  }
+});
 
 
 
@@ -137,6 +160,11 @@ watch([currentGrade, currentTerm], ([newGrade, newTerm]) => {
 
 // 加载和绘制汉字的函数
 const loadAndDrawCharacters = () => {
+  if (!wasmInitialized.value) {
+    console.warn('wasm模块未初始化，跳过汉字加载');
+    return;
+  }
+
   // 从wasm获取汉字
   try {
     charactersArray = get_new_chars(currentGrade.value, currentTerm.value);
@@ -173,18 +201,6 @@ const speakText = (text) => {
     cnchar.voice.speak(text);
   }
 };
-
-onMounted(() => {
-  // 页面加载时从路由参数获取学期选择
-  const routeTerm = router.currentRoute.value.query.term;
-  if (routeTerm) {
-    const [grade, term] = String(routeTerm).split('-').map(Number);
-    currentGrade.value = grade;
-    currentTerm.value = term;
-  }
-  // 加载和绘制汉字
-  loadAndDrawCharacters();
-});
 </script>
 
 <template>

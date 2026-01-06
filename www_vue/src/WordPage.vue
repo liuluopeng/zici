@@ -3,14 +3,23 @@ import cnchar from 'cnchar-all';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
-// 导入wasm函数
-import { my_console_log, get_new_words } from 'my-wasm';
+// 导入wasm初始化函数和函数
+import init, { my_console_log, get_new_words } from 'my-wasm';
+
+// 标记wasm是否已初始化
+const wasmInitialized = ref(false);
 
 // 初始化wasm模块
-onMounted(() => {
-  console.log('wasm模块初始化成功');
-  // WASM初始化完成后，自动加载和绘制词语
-  loadAndDrawWords();
+onMounted(async () => {
+  try {
+    await init();
+    wasmInitialized.value = true;
+    console.log('wasm模块初始化成功');
+    // WASM初始化完成后，自动加载和绘制词语
+    loadAndDrawWords();
+  } catch (error) {
+    console.error('wasm模块初始化失败:', error);
+  }
 });
 
 // Gallery相关状态
@@ -55,6 +64,11 @@ const updateCurrentWord = () => {
 
 // 加载和绘制词语的函数
 const loadAndDrawWords = () => {
+  if (!wasmInitialized.value) {
+    console.warn('wasm模块未初始化，跳过词语加载');
+    return;
+  }
+
   // 从wasm获取词语
   try {
     wordsArray = get_new_words();
