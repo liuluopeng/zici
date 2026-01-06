@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../HomePage.vue'
 import DictationPage from '../DictationPage.vue'
 import PinyinPage from '../PinyinPage.vue'
+import WordPage from '../WordPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,6 +23,12 @@ const router = createRouter({
       path: '/pinyin',
       name: 'Pinyin',
       component: PinyinPage
+    },
+
+    {
+      path: '/word',
+      name: 'Word',
+      component: WordPage
     }
   ]
 })
