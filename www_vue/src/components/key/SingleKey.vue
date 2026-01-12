@@ -15,6 +15,7 @@ type Props = {
   type: string;
   area: Array<Array<KEY_PERMUTATION_VALUE>> | null;
   currentSystem: string;
+  isActiveKey: boolean;
 };
 
 const props = withDefaults(defineProps<Partial<Props>>(), {
@@ -27,7 +28,8 @@ const props = withDefaults(defineProps<Partial<Props>>(), {
   heightType: 'normal',
   type: 'normal',
   area: null,
-  currentSystem: 'win'
+  currentSystem: 'win',
+  isActiveKey: true
 });
 
 const state = reactive({
@@ -73,7 +75,8 @@ const subValue = computed(() => {
     value.length > 1 ? 'y-single-key__word' : 'y-single-key__letter',
     state.isActive ? 'y-single-key--active' : '',
     isKeyPressed ? 'y-single-key--pressed' : '',
-    heightType === 'half' ? 'y-single-key--half' : ''
+    heightType === 'half' ? 'y-single-key--half' : '',
+    !isActiveKey ? 'y-single-key--inactive' : ''
   ]" :style="{
     backgroundColor,
     color
@@ -144,6 +147,12 @@ $unit: 2.2rem;
     border-radius: 0.5rem;
     background-color: rgba(255, 255, 255, 0.6);
   }
+}
+
+.y-single-key--inactive {
+  opacity: 0.3;
+  filter: brightness(0.5);
+  transition: opacity 0.3s, filter 0.3s;
 }
 
 .y-single-key--empty {

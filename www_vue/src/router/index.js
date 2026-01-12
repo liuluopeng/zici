@@ -3,6 +3,7 @@ import Home from '../HomePage.vue'
 import DictationPage from '../DictationPage.vue'
 import PinyinPage from '../PinyinPage.vue'
 import WordPage from '../WordPage.vue'
+import KeyboardLayoutPage from '../KeyboardLayoutPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,6 +30,12 @@ const router = createRouter({
       path: '/word',
       name: 'Word',
       component: WordPage
+    },
+
+    {
+      path: '/keyboard-layout',
+      name: 'KeyboardLayout',
+      component: KeyboardLayoutPage
     }
   ]
 })
