@@ -1,0 +1,9 @@
+services:
+  web:
+    image: nginx:alpine
+    restart: always
+    container_name: vue-web
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html

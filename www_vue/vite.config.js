@@ -63,7 +63,6 @@ export default defineConfig({
     host: '0.0.0.0', // 允许局域网访问
     fs: {
       allow: ['../pkg', './']
-      // allow: ['/Volumes/six/FLUT/wasm_zici/pkg', '/Volumes/six/FLUT/wasm_zici/www_vue'] // 使用绝对路径
     },
     proxy: {
       '/draw': {

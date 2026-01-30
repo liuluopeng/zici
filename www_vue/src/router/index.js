@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import Home from '../HomePage.vue'
 import DictationPage from '../DictationPage.vue'
-import PinyinPage from '../PinyinPage.vue'
 import WordPage from '../WordPage.vue'
 import KeyboardLayoutPage from '../KeyboardLayoutPage.vue'
+import PinyinPickerPage from '../PinyinPickerPage.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -20,11 +20,7 @@ const router = createRouter({
       component: DictationPage
     },
 
-    {
-      path: '/pinyin',
-      name: 'Pinyin',
-      component: PinyinPage
-    },
+
 
     {
       path: '/word',
@@ -36,6 +32,12 @@ const router = createRouter({
       path: '/keyboard-layout',
       name: 'KeyboardLayout',
       component: KeyboardLayoutPage
+    },
+
+    {
+      path: '/pinyin-picker',
+      name: 'PinyinPicker',
+      component: PinyinPickerPage
     }
   ]
 })
